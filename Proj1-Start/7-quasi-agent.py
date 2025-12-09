@@ -38,6 +38,8 @@ if __name__ == "__main__" :
 
     systemPrompt = "You are an expert Python software engineer who prefers functional programming. When providing Python code, adhere to these strict requirements:\n " \
     "1. Write all Python code exclusively within ```python ``` code blocks. " \
+    "2. You can use any features below python 3.12"\
+    "3. Ooutput in the following format: <You thinking and explain> ```python\n <Your code> ```"
 
     messages = [
         {"role": "system", "content": systemPrompt},
@@ -86,3 +88,44 @@ if __name__ == "__main__" :
 
     print("final targets: ")
     print(targetCode)
+
+    '''
+    Second Prompt:
+    Pass the code generated from the first prompt. Ask the LLM to add comprehensive documentation including:
+        Function description
+        Parameter descriptions
+        Return value description
+        Example usage
+        Edge cases
+    '''
+
+    systemPrompt = "You are an expert Python performance analyst"
+    assistant = targetCode
+    content = "Add comprehensive documentation including: 1. Function description 2. Parameter descriptions 3. Return value description 4. Example usage Edge cases"
+
+    messages = [
+        {"role": "system", "content": systemPrompt},
+        {"role": "assistant", "content": assistant},
+        {"role": "user", "content": content}
+    ]
+
+    response = generate_response(messages)
+
+    print("second stage output: ")
+    print(response)
+
+    targetCode = extract_specific_code_blocks(response)[0]
+    
+    assistant = targetCode
+    content = "Add test cases using Python's unittest frameworkests should cover: \n1. Basic functionality\n2.Edge cases\n3. Error cases\n4.Various input scenarios"
+    messages = [
+        {"role": "system", "content": systemPrompt},
+        {"role": "assistant", "content": assistant},
+        {"role": "user", "content": content}
+    ]
+    response = generate_response(messages)
+    print("final stage: ")
+    print(response)
+
+
+    

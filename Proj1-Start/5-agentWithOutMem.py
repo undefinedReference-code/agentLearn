@@ -14,7 +14,6 @@ def generate_response(messages: List[Dict]) -> str:
     except Exception as e:
         return f"Error: {e}"
 
-
 messages = [
     {"role": "system", "content": "You are an expert software engineer that prefers functional programming."},
     {"role": "user", "content": "Write a function to swap the keys and values in a dictionary."}
